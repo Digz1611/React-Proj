@@ -1,20 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import authService from '../services/authService';
+import '../styles/NavBar.css';
 
 const NavBar = () => {
     const isAuthenticated = authService.isAuthenticated();
 
     return (
-        <nav>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
+        <nav className="navbar">
+            <div className="navbar-brand">
+                <Link to="/">MovieMate</Link>
+            </div>
+            <ul className="navbar-nav">
                 {isAuthenticated && (
-                    <li>
-                        <Link to="/profile">Profile</Link>
-                    </li>
+                    <>
+                        <li>
+                            <Link to="/wishlist">Wish List</Link>
+                        </li>
+                        <li>
+                            <Link to="/reviews">Reviews</Link>
+                        </li>
+                        <li>
+                            <Link to="/movies">Search Movies</Link>
+                        </li>
+                    </>
                 )}
                 {isAuthenticated ? (
                     <li>

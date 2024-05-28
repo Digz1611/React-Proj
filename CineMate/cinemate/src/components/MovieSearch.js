@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import movieService from '../services/movieService';
+import '../styles/MovieSearch.css';
 
-const MovieSearch = () => {
+const MovieSearch = ({ onMovieSelect }) => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
 
@@ -16,8 +17,14 @@ const MovieSearch = () => {
         }
     };
 
+    const handleMovieSelect = (movie) => {
+        onMovieSelect(movie);
+        setQuery('');
+        setResults([]);
+    };
+
     return (
-        <div>
+        <div className="movie-search">
             <h2>Search Movies</h2>
             <form onSubmit={handleSearch}>
                 <input
@@ -30,7 +37,9 @@ const MovieSearch = () => {
             </form>
             <ul>
                 {results.map((movie) => (
-                    <li key={movie.id}>{movie.title}</li>
+                    <li key={movie.id} onClick={() => handleMovieSelect(movie)}>
+                        {movie.title}
+                    </li>
                 ))}
             </ul>
         </div>

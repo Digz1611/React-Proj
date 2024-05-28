@@ -1,12 +1,15 @@
 import React from 'react';
+import '../styles/MovieList.css';
 
-const MovieList = ({ movies }) => {
+const MovieList = ({ movies, onMovieSelect }) => {
     return (
-        <div>
-            <h2>Wish List</h2>
+        <div className="movie-list">
+            <h2>Movie List</h2>
             <ul>
                 {movies.map((movie) => (
-                    <li key={movie.id}>{movie.title}</li>
+                    <li key={movie.id} onClick={() => onMovieSelect(movie)}>
+                        {movie.title}
+                    </li>
                 ))}
             </ul>
         </div>

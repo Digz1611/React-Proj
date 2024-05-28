@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import authService from '../services/authService';
+import '../styles/Login.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className="login">
             <h2>Login</h2>
             <form onSubmit={handleLogin}>
                 <input
