@@ -1,5 +1,7 @@
+// src/components/Login.js
 import React, { useState } from 'react';
 import authService from '../services/authService';
+import movieService from '../services/movieService';
 import '../styles/Login.css';
 
 const Login = () => {
@@ -10,33 +12,17 @@ const Login = () => {
         e.preventDefault();
         try {
             await authService.login(email, password);
-            // Redirect or show success message
+            // Store user data in Firestore
+            const userId = await movieService.addUser({ email });
+            // Store the userId or do any necessary operations
+            console.log('User ID:', userId);
         } catch (error) {
             console.error('Login failed:', error);
             // Show error message
         }
     };
 
-    return (
-        <div className="login">
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    );
+    // Render login form...
 };
 
 export default Login;
