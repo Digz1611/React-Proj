@@ -1,3 +1,4 @@
+// src/components/MovieSearch.js
 import React, { useState } from 'react';
 import movieService from '../services/movieService';
 import '../styles/MovieSearch.css';
@@ -37,8 +38,8 @@ const MovieSearch = ({ onMovieSelect }) => {
             </form>
             <ul>
                 {results.map((movie) => (
-                    <li key={movie.id} onClick={() => handleMovieSelect(movie)}>
-                        {movie.title}
+                    <li key={movie.imdbID} onClick={() => handleMovieSelect(movie)}>
+                        {movie.Title}
                     </li>
                 ))}
             </ul>
