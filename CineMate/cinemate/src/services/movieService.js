@@ -1,6 +1,6 @@
 // src/services/movieService.js
 import axios from 'axios';
-import { firestore } from '../firebase';
+import { db as firestore } from '../firebase';
 
 const OMDB_API_KEY = 'YOUR_OMDB_API_KEY';
 const OMDB_API_URL = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}`;

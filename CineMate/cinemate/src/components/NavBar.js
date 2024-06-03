@@ -25,13 +25,12 @@ const NavBar = () => {
                         </li>
                     </>
                 )}
-                {isAuthenticated ? (
+                <li>
+                    <Link to="/auth">{isAuthenticated ? 'Profile' : 'Login/Register'}</Link>
+                </li>
+                {isAuthenticated && (
                     <li>
                         <button onClick={authService.logout}>Logout</button>
-                    </li>
-                ) : (
-                    <li>
-                        <Link to="/login">Login</Link>
                     </li>
                 )}
             </ul>
