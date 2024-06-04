@@ -1,21 +1,15 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { auth, db } from './firebase';
 
-const firebaseConfig = {
-    // Your Firebase configuration
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-
+// Register a new user
 const register = async (username, email, password) => {
     try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
         // Store the user's username, email, and password in Firestore
-        await firebase.firestore().collection('users').doc(user.uid).set({
+        await db.collection('users').doc(user.uid).set({
             username,
             email,
             password,
@@ -29,9 +23,10 @@ const register = async (username, email, password) => {
     }
 };
 
+// User login
 const login = async (email, password) => {
     try {
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         // User is authenticated, return true
         return true;
@@ -42,11 +37,26 @@ const login = async (email, password) => {
     }
 };
 
-// Other functions
+// New state variable to keep track of the authentication status
+let isAuthenticatedValue = false;
+
+// Function to check if the user is authenticated
+const isAuthenticated = () => {
+    return isAuthenticatedValue;
+};
+
+// Function to handle authentication status changes
+const handleAuthStateChanged = (user) => {
+    isAuthenticatedValue = !!user; // Update the authentication status based on the user object
+};
+
+// Subscribe to the authentication state changes
+const unsubscribe = onAuthStateChanged(auth, handleAuthStateChanged);
 
 const authService = {
     register,
     login,
+    isAuthenticated,
     // Other exports
 };
 

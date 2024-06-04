@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import authService from '../services/authService';
 import '../styles/NavBar.css';
 
 const NavBar = () => {
-    const isAuthenticated = authService.isAuthenticated();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        // Set the initial authentication status
+        setIsAuthenticated(authService.isAuthenticated());
+    }, []);
 
     return (
         <nav className="navbar">
@@ -26,8 +31,15 @@ const NavBar = () => {
                     </>
                 )}
                 <li>
-                    <Link to="/auth">{isAuthenticated ? 'Profile' : 'Login/Register'}</Link>
+                    <Link to={isAuthenticated ? '/profile' : '/login'}>
+                        {isAuthenticated ? 'Profile' : 'Login'}
+                    </Link>
                 </li>
+                {!isAuthenticated && (
+                    <li>
+                        <Link to="/register">Register</Link>
+                    </li>
+                )}
                 {isAuthenticated && (
                     <li>
                         <button onClick={authService.logout}>Logout</button>
