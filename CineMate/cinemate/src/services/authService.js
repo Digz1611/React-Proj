@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { auth, db } from './firebase';
+import { app, db, auth } from './firebase';
 
 // Register a new user
 const register = async (username, email, password) => {

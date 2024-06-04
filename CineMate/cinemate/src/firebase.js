@@ -1,7 +1,9 @@
+// src/firebase.js
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
+// Your Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyAJWUM70gB7SdppFMHwCzy1jFDQMMdjVJc",
     authDomain: "cinemate-4d8fe.firebaseapp.com",
@@ -12,6 +14,7 @@ const firebaseConfig = {
     measurementId: "G-8GL4RCGYK3"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
