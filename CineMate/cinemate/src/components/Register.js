@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
 import '../styles/Register.css';
+
+import { useNavigate } from 'react-router-dom';
+import { auth, db } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -13,21 +17,33 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        // Password validation
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-        if (!passwordRegex.test(password)) {
-            setPasswordError(
-                'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.'
-            );
-            return;
-        }
-
         try {
-            await authService.register(username, email, password);
-            navigate('/login');
+            // Password validation
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!passwordRegex.test(password)) {
+                setPasswordError(
+                    'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.'
+                );
+                return;
+            }
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Store the user's username, email, and password in Firestore
+            const userCollection = collection(db, "users");
+
+            await addDoc(userCollection, {
+                username: username,
+                email: email,
+                password: password
+            })
+            navigate("login")
+            console.log("User saved successfully")
+            // Other code for successful registration
         } catch (error) {
-            console.error('Registration failed:', error);
-            // Display error message
+            // Handle registration error
+            console.error('Registration error:', error);
+            throw error;
         }
     };
 

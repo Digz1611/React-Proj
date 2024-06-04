@@ -1,27 +1,7 @@
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { app, db, auth } from './firebase';
-
-// Register a new user
-const register = async (username, email, password) => {
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Store the user's username, email, and password in Firestore
-        await db.collection('users').doc(user.uid).set({
-            username,
-            email,
-            password,
-        });
-
-        // Other code for successful registration
-    } catch (error) {
-        // Handle registration error
-        console.error('Registration error:', error);
-        throw error;
-    }
-};
+import { collection, addDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
+import { useMatch, useNavigate } from 'react-router-dom';
 
 // User login
 const login = async (email, password) => {
@@ -54,7 +34,6 @@ const handleAuthStateChanged = (user) => {
 const unsubscribe = onAuthStateChanged(auth, handleAuthStateChanged);
 
 const authService = {
-    register,
     login,
     isAuthenticated,
     // Other exports
