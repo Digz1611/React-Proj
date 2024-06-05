@@ -1,17 +1,53 @@
-.login {
-    max-width: 300px;
+.register-form {
+    max-width: 400px;
     margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
 }
 
-.login input {
-    display: block;
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
+.register-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.login button {
+.input-container {
+    margin-bottom: 20px;
+}
+
+.input-container label {
     display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-container input {
     width: 100%;
-    padding: 0.5rem;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button-container button:hover {
+    background-color: #0056b3;
 }
