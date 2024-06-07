@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import authService from '../services/authService';
-import '../styles/Register.css';
-
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import '../styles/Register.css';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -36,9 +34,9 @@ const Register = () => {
                 username: username,
                 email: email,
                 password: password
-            })
-            navigate("login")
-            console.log("User saved successfully")
+            });
+            navigate("/login"); // Absolute path (correct)
+            console.log("User saved successfully");
             // Other code for successful registration
         } catch (error) {
             // Handle registration error
