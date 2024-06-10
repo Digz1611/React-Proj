@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
 import '../styles/Login.css';
 
@@ -8,14 +8,21 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await authService.login(email, password);
-            // Redirect to home page or perform other actions
+            const user = await authService.login(email, password);
+            if (user) {
+                // Login successful, redirect to home page
+                navigate('/home'); // Change this to your home page route
+            } else {
+                setErrorMessage('Invalid email or password');
+            }
         } catch (error) {
-            setErrorMessage('Invalid email or password');
+            setErrorMessage('Login failed. Please try again.');
+            console.error('Login error:', error);
         }
     };
 

@@ -1,19 +1,31 @@
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { collection, addDoc } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '../firebase';
-import { useMatch, useNavigate } from 'react-router-dom';
 
 // User login
 const login = async (email, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        // User is authenticated, return true
-        return true;
+
+        // Find the user document in Firestore based on the email
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            const userData = userDoc.data();
+            // You can access additional user data here if needed
+            console.log("User data:", userData);
+        } else {
+            console.log("User not found in Firestore");
+        }
+
+        return user;
     } catch (error) {
         console.error('Login failed:', error);
-        // Login failed, return false
-        return false;
+        throw error;
     }
 };
 
