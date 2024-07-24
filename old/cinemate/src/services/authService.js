@@ -1,14 +1,12 @@
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { deleteUser, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from '../firebase';
 
-// User login
 const login = async (email, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Find the user document in Firestore based on the email
         const usersRef = collection(db, "users");
         const q = query(usersRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
@@ -16,39 +14,49 @@ const login = async (email, password) => {
         if (!querySnapshot.empty) {
             const userDoc = querySnapshot.docs[0];
             const userData = userDoc.data();
-            // You can access additional user data here if needed
-            console.log("User data:", userData);
+            const userDocId = userDoc.id;
+
+            return { user, userDocId, userData };
         } else {
             console.log("User not found in Firestore");
+            return { user, userDocId: null, userData: null };
         }
-
-        return user;
     } catch (error) {
         console.error('Login failed:', error);
         throw error;
     }
 };
 
-// New state variable to keep track of the authentication status
+const logout = () => {
+    auth.signOut();
+};
+
+const deleteUserAccount = async (user) => {
+    try {
+        await deleteUser(user);
+        console.log("User deleted successfully");
+    } catch (error) {
+        console.error("Error deleting user:", error);
+    }
+};
+
 let isAuthenticatedValue = false;
 
-// Function to check if the user is authenticated
 const isAuthenticated = () => {
     return isAuthenticatedValue;
 };
 
-// Function to handle authentication status changes
 const handleAuthStateChanged = (user) => {
-    isAuthenticatedValue = !!user; // Update the authentication status based on the user object
+    isAuthenticatedValue = !!user;
 };
 
-// Subscribe to the authentication state changes
-const unsubscribe = onAuthStateChanged(auth, handleAuthStateChanged);
+onAuthStateChanged(auth, handleAuthStateChanged);
 
 const authService = {
     login,
+    logout,
     isAuthenticated,
-    // Other exports
+    deleteUserAccount,
 };
 
 export default authService;

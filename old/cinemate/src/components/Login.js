@@ -13,10 +13,9 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const user = await authService.login(email, password);
-            if (user) {
-                // Login successful, redirect to home page
-                navigate('/home'); // Change this to your home page route
+            const { user, userDocId, userData } = await authService.login(email, password);
+            if (user && userDocId) {
+                navigate(`/profile/${userDocId}`, { state: { userData } });
             } else {
                 setErrorMessage('Invalid email or password');
             }

@@ -24,7 +24,7 @@ const App = () => {
                 <EditProfile />
               </PrivateRoute>
             } />
-            <Route path="/profile" element={
+            <Route path="/profile/:userId" element={
               <PrivateRoute>
                 <Profile />
               </PrivateRoute>

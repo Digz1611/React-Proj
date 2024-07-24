@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import authService from '../services/authService';
 import '../styles/Register.css';
 
 const Register = () => {
@@ -16,7 +17,6 @@ const Register = () => {
         e.preventDefault();
 
         try {
-            // Password validation
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
             if (!passwordRegex.test(password)) {
                 setPasswordError(
@@ -24,24 +24,33 @@ const Register = () => {
                 );
                 return;
             }
+
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // Store the user's username, email, and password in Firestore
             const userCollection = collection(db, "users");
-
             await addDoc(userCollection, {
                 username: username,
                 email: email,
-                password: password
             });
-            navigate("/login"); // Absolute path (correct)
+
+            navigate("/login");
             console.log("User saved successfully");
-            // Other code for successful registration
         } catch (error) {
-            // Handle registration error
             console.error('Registration error:', error);
-            throw error;
+
+            if (error.code === 'auth/email-already-in-use') {
+                const confirmDelete = window.confirm(
+                    'An account with this email already exists. Do you want to delete the existing account?'
+                );
+
+                if (confirmDelete) {
+                    await authService.deleteUserAccount(auth.currentUser);
+                    handleRegister(e);
+                }
+            } else {
+                throw error;
+            }
         }
     };
 

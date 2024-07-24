@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "cinemate-4d8fe"
+  },
+  "targets": {
+    "cinemate-4d8fe": {
+      "hosting": {
+        "app": [
+          "cinemate-4d8fe"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

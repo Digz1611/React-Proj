@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import authService from '../services/authService';
 import '../styles/NavBar.css';
 
 const NavBar = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [userData, setUserData] = useState(null);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        // Set the initial authentication status
         setIsAuthenticated(authService.isAuthenticated());
-    }, []);
+        if (location.state && location.state.userData) {
+            setUserData(location.state.userData);
+        }
+    }, [location.state]);
+
+    const handleLogout = () => {
+        authService.logout();
+        setIsAuthenticated(false);
+        setUserData(null);
+        navigate('/');
+    };
 
     return (
         <nav className="navbar">
@@ -30,6 +42,11 @@ const NavBar = () => {
                         </li>
                     </>
                 )}
+                {isAuthenticated && (
+                    <li>
+                        <Link to={`/profile/${userData.userId}`}>{userData.username}</Link>
+                    </li>
+                )}
                 <li>
                     <Link to={isAuthenticated ? '/profile' : '/login'}>
                         {isAuthenticated ? 'Profile' : 'Login'}
@@ -42,7 +59,7 @@ const NavBar = () => {
                 )}
                 {isAuthenticated && (
                     <li>
-                        <button onClick={authService.logout}>Logout</button>
+                        <button onClick={handleLogout}>Logout</button>
                     </li>
                 )}
             </ul>
