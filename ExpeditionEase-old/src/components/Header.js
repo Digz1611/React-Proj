@@ -6,7 +6,6 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 const Header = () => {
   const [user, setUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
@@ -48,7 +47,6 @@ const Header = () => {
                 <Nav.Link as={Link} to="/private-itinerarys">Private Itinerarys</Nav.Link>
                 <Nav.Link as={Link} to="/draft-itinerarys">Draft Itinerarys</Nav.Link>
                 <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-                {isAdmin && <Nav.Link as={Link} to="/admin">Admin</Nav.Link>}
                 <Nav.Link as={Link} to="/" onClick={handleLogout}>Logout</Nav.Link>
               </>
             )}

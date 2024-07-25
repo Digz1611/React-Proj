@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "expeditionease-d59c8"
+  },
+  "targets": {
+    "expeditionease-95ada": {
+      "hosting": {
+        "app": [
+          "expeditionease-95ada"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

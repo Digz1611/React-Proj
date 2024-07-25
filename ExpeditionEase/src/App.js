@@ -1,46 +1,67 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/Header';
-import ItineraryList from './components/ItineraryList';
-import ItineraryForm from './components/ItineraryForm';
-import ItineraryDetail from './components/ItineraryDetail';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
-import Profile from './components/Profile';
-import PrivateItinerarys from './components/PrivateItinerary';
-import DraftItinerarys from './components/DraftItinerary';
-import Home from './components/Home';
-import PrivateRoute from './components/PrivateRoute';
 import Admin from './components/Admin';
-import Footer from './components/Footer';
-import { Container } from 'react-bootstrap';
-import './App.css';
-import { AuthProvider } from './AuthContext'; // Add this import
+import BookList from './components/BookList';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, db } from './firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
+import './styles.css';
 
-function App() {
+const App = () => {
+  const [user] = useAuthState(auth);
+  const [userRole, setUserRole] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user) {
+        try {
+          // Corrected way to reference the document in a collection
+          const userDocRef = doc(db, 'users', user.uid);
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserRole(userData.role);
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchUserRole();
+  }, [user]);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <Router>
-      <AuthProvider>
-        <Header />
-        <Container className="flex-grow-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/itinerarys" element={<PrivateRoute><ItineraryList type="public" /></PrivateRoute>} />
-            <Route path="/itinerarys/:id" element={<PrivateRoute><ItineraryDetail /></PrivateRoute>} />
-            <Route path="/add-itinerary" element={<PrivateRoute><ItineraryForm /></PrivateRoute>} />
-            <Route path="/edit-itinerary/:id" element={<PrivateRoute><ItineraryForm /></PrivateRoute>} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-            <Route path="/private-itinerarys" element={<PrivateRoute><PrivateItinerarys /></PrivateRoute>} />
-            <Route path="/draft-itinerarys" element={<PrivateRoute><DraftItinerarys /></PrivateRoute>} />
-            <Route path="/admin" element={<PrivateRoute requiresAdmin={true}><Admin /></PrivateRoute>} />
-          </Routes>
-        </Container>
-        <Footer />
-      </AuthProvider>
+      <nav>
+        <Link to="/">Home</Link>
+        {user ? (
+          <>
+            {userRole === 'admin' && <Link to="/admin">Admin</Link>}
+            <button onClick={() => auth.signOut()}>Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        )}
+      </nav>
+      <Routes>
+        <Route path="/login" element={user ? <Navigate to="/books" /> : <Login />} />
+        <Route path="/register" element={<Register />} />
+        {userRole === 'admin' && <Route path="/admin" element={<Admin />} />}
+        {user && <Route path="/books" element={<BookList />} />}
+        <Route path="/" element={<BookList />} />
+      </Routes>
     </Router>
   );
-}
+};
 
 export default App;

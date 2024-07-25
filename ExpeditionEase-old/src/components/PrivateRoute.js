@@ -8,8 +8,6 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore';
 const PrivateRoute = ({ children, requiresAdmin = false }) => {
   const auth = getAuth(app);
   const [user, loading, error] = useAuthState(auth);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [checkingAdmin, setCheckingAdmin] = useState(true);
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -26,20 +24,12 @@ const PrivateRoute = ({ children, requiresAdmin = false }) => {
     checkAdmin();
   }, [user]);
 
-  if (loading || checkingAdmin) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>Error: {error.message}</div>;
   }
 
   if (!user) {
     return <Navigate to="/login" />;
-  }
-
-  if (requiresAdmin && !isAdmin) {
-    return <Navigate to="/" />;
   }
 
   return children;

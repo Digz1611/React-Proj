@@ -1,16 +1,5 @@
 {
   "projects": {
-    "default": "expeditionease-95ada"
-  },
-  "targets": {
-    "expeditionease-95ada": {
-      "hosting": {
-        "app": [
-          "expeditionease-95ada"
-        ]
-      }
-    }
-  },
-  "etags": {},
-  "dataconnectEmulatorConfig": {}
+    "default": "fir-app-ef2b9"
+  }
 }

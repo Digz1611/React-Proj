@@ -1,70 +1,46 @@
+// src/components/Login.js
 import React, { useState } from 'react';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { Link, useNavigate } from 'react-router-dom';
-import { app } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
+import { useNavigate } from 'react-router-dom';
+import styles from './styles/Login.module.css';
 
-function Login() {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const auth = getAuth(app);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setSuccess('Login successful!');
-      setError('');
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      navigate('/books');
     } catch (error) {
-      let errorMessage;
-      if (error.code === 'auth/wrong-password') {
-        errorMessage = 'Incorrect password. Please try again.';
-      } else if (error.code === 'auth/user-not-found') {
-        errorMessage = 'No user found with this email. Please try again.';
-      } else {
-        errorMessage = 'Error logging in. Please try again later.';
-      }
-      setError(errorMessage);
-      setSuccess('');
+      console.error("Error signing in: ", error);
     }
   };
 
   return (
-    <Container>
-      <h2>Login</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
-      {success && <Alert variant="success">{success}</Alert>}
-      <Form onSubmit={handleLogin}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Login
-        </Button>
-      </Form>
-    </Container>
+    <form className={styles.form} onSubmit={handleLogin}>
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+        required
+        className={styles.input}
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
+        required
+        className={styles.input}
+      />
+      <button type="submit" className={styles.button}>Login</button>
+    </form>
   );
-}
+};
 
 export default Login;

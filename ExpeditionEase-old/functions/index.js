@@ -1,15 +1,8 @@
 const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+// const admin = require('firebase-admin');
 const express = require('express');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
-
-// Initialize the app with a service account, granting admin privileges
-const serviceAccount = require('./serviceAccountKey.json');
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://expeditionease-95ada.firebaseio.com' // Update with your database URL
-});
 
 const app = express();
 
@@ -33,7 +26,6 @@ app.get('/', (req, res) => {
 // deleteItineraryendpoint
 app.delete('/itinerary/:id', async (req, res) => {
   const { id } = req.params;
-  const firestore = admin.firestore();
 
   try {
     await firestore.collection('itinerarys').doc(id).delete();
@@ -47,7 +39,6 @@ app.delete('/itinerary/:id', async (req, res) => {
 // deleteUser endpoint
 app.delete('/user/:id', async (req, res) => {
   const { id } = req.params;
-  const firestore = admin.firestore();
 
   try {
     await admin.auth().deleteUser(id);
