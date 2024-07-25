@@ -1,0 +1,6 @@
+Destination -/
+Date -/
+Attractions -/
+Accommodation
+Transportation
+est Cost

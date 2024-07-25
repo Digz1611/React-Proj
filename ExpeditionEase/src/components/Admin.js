@@ -1,13 +1,13 @@
 // src/components/Admin.js
 import React from 'react';
-import AddBook from './AddBook';
-import RemoveBook from './RemoveBook';
+import AddItinerary from './AddItinerary';
+import RemoveItinerary from './RemoveItinerary';
 import './styles/Admin.module.css';
 const Admin = () => {
   return (
     <div>
-      <AddBook />
-      <RemoveBook />
+      <AddItinerary />
+      <RemoveItinerary />
     </div>
   );
 };

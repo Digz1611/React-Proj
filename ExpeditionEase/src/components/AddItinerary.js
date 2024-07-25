@@ -1,15 +1,16 @@
-// src/components/AddBook.js
+// src/components/AddItinerary.js
 import React, { useState } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db, auth, storage } from '../firebaseConfig';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import './styles/AddBook.module.css'; 
+import './styles/AddItinerary.module.css';
 
-const AddBook = () => {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [description, setDescription] = useState('');
-  const [bookPhoto, setBookPhoto] = useState(null);
+const AddItinerary = () => {
+  const [destination, setDestination] = useState('');
+  const [date, setDate] = useState('');
+  const [attractions, setAttractions] = useState('');
+  const [accommodation, setAccommodation] = useState('');
+  const [itineraryPhoto, setItineraryPhoto] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleSubmit = async (e) => {
@@ -19,9 +20,9 @@ const AddBook = () => {
       if (user) {
         let photoURL = null; // Initialize photoURL to null
 
-        if (bookPhoto) {
-          const storageRef = ref(storage, `book-photos/${bookPhoto.name}`);
-          const uploadTask = uploadBytesResumable(storageRef, bookPhoto);
+        if (itineraryPhoto) {
+          const storageRef = ref(storage, `itinerary-photos/${itineraryPhoto.name}`);
+          const uploadTask = uploadBytesResumable(storageRef, itineraryPhoto);
 
           await new Promise((resolve, reject) => {
             uploadTask.on(
@@ -44,61 +45,69 @@ const AddBook = () => {
           });
         }
 
-        await addDoc(collection(db, 'books'), {
-          title,
-          author,
-          description,
+        await addDoc(collection(db, 'itinerarys'), {
+          destination,
+          date,
+          attractions,
+          accommodation,
           userId: user.uid,
           userEmail: user.email,
           photoURL, // Use the updated photoURL value
         });
 
-        setTitle('');
-        setAuthor('');
-        setDescription('');
-        setBookPhoto(null);
+        setDestination('');
+        setDate('');
+        setAttractions('');
+        setAccommodation('');
+        setItineraryPhoto(null);
         setUploadProgress(0);
       } else {
         console.error("User not authenticated");
       }
     } catch (error) {
-      console.error("Error adding book: ", error);
+      console.error("Error adding itinerary: ", error);
     }
   };
 
   return (
     <div>
-      <h2>Add Book</h2>
+      <h2>Add Itinerary</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
+          value={destination}
+          onChange={(e) => setDestination(e.target.value)}
+          placeholder="Destination"
           required
         />
         <input
           type="text"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-          placeholder="Author"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          placeholder="Date"
           required
         />
         <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description"
+          value={attractions}
+          onChange={(e) => setAttractions(e.target.value)}
+          placeholder="Attractions"
+          required
+        />
+        <textarea
+          value={accommodation}
+          onChange={(e) => setAccommodation(e.target.value)}
+          placeholder="Accommodation"
           required
         />
         <input
           type="file"
-          onChange={(e) => setBookPhoto(e.target.files[0])}
+          onChange={(e) => setItineraryPhoto(e.target.files[0])}
         />
         {uploadProgress > 0 && <progress value={uploadProgress} max="100" />}
-        <button type="submit">Add Book</button>
+        <button type="submit">Add Itinerary</button>
       </form>
     </div>
   );
 };
 
-export default AddBook;
+export default AddItinerary;

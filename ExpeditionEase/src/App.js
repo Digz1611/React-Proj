@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import Login from './components/Login';
 import Register from './components/Register';
 import Admin from './components/Admin';
-import BookList from './components/BookList';
+import ItineraryList from './components/ItineraryList';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from './firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
@@ -54,11 +54,11 @@ const App = () => {
         )}
       </nav>
       <Routes>
-        <Route path="/login" element={user ? <Navigate to="/books" /> : <Login />} />
+        <Route path="/login" element={user ? <Navigate to="/itinerarys" /> : <Login />} />
         <Route path="/register" element={<Register />} />
         {userRole === 'admin' && <Route path="/admin" element={<Admin />} />}
-        {user && <Route path="/books" element={<BookList />} />}
-        <Route path="/" element={<BookList />} />
+        {user && <Route path="/itinerarys" element={<ItineraryList />} />}
+        <Route path="/" element={<ItineraryList />} />
       </Routes>
     </Router>
   );

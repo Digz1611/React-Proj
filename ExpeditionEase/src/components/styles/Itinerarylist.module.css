@@ -1,6 +1,6 @@
-/* src/styles/Booklist.module.css */
+/* src/styles/Itinerarylist.module.css */
 
-.book-list-container {
+.itinerary-list-container {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -10,18 +10,18 @@
     background-color: #fff;
   }
   
-  .book-list-header {
+  .itinerary-list-header {
     text-align: center;
     margin-bottom: 20px;
     font-size: 24px;
   }
   
-  .book-list {
+  .itinerary-list {
     list-style: none;
     padding: 0;
   }
   
-  .book-item {
+  .itinerary-item {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 20px;
@@ -30,26 +30,26 @@
     align-items: center;
   }
   
-  .book-image {
+  .itinerary-image {
     width: 200px; 
     height: fit-content; 
     margin-right: 20px;
     border-radius: 6px;
   }
   
-  .book-details {
+  .itinerary-details {
     flex-grow: 1;
     text-align: center;
   }
   
-  .book-title {
+  .itinerary-destination {
     font-size: 30px;
     margin-bottom: 10px;
     font-weight: bold;
     
   }
   
-  .book-author {
+  .itinerary-date {
     font-size: 16px;
     color: #666;
     margin-bottom: 10px;

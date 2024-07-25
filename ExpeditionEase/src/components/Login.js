@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/books');
+      navigate('/itinerarys');
     } catch (error) {
       console.error("Error signing in: ", error);
     }

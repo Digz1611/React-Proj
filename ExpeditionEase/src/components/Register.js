@@ -15,9 +15,10 @@ const Register = () => {
     e.preventDefault();
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(userCredential);
       const user = userCredential.user;
       await setDoc(doc(db, 'users', user.uid), { role }); // Store the user's role in Firestore
-      navigate('/books');
+      navigate('/itinerarys');
     } catch (error) {
       console.error("Error signing up: ", error);
     }
@@ -51,7 +52,7 @@ const Register = () => {
               checked={role === 'client'}
               onChange={(e) => setRole(e.target.value)}
             />
-            Client - Can view and search for books
+            Client - Can view and search for itinerarys
           </label>
           <br />
           <label>
@@ -61,7 +62,7 @@ const Register = () => {
               checked={role === 'admin'}
               onChange={(e) => setRole(e.target.value)}
             />
-            Admin - Can add, edit, and remove books
+            Admin - Can add, edit, and remove itinerarys
           </label>
         </div>
         <button type="submit" className={styles.button}>Register</button>

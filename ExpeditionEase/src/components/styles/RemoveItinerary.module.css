@@ -1,6 +1,6 @@
-/* src/styles/RemoveBook.module.css */
+/* src/styles/RemoveItinerary.module.css */
 
-.removeBookContainer {
+.removeItineraryContainer {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -10,18 +10,18 @@
   background-color: #fff;
 }
 
-.title {
+.destination {
   text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
 }
 
-.bookList {
+.itineraryList {
   list-style: none;
   padding: 0;
 }
 
-.bookItem {
+.itineraryItem {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 20px;
@@ -30,24 +30,24 @@
   align-items: center;
 }
 
-.bookImage {
+.itineraryImage {
   width: 200px; 
   height: fit-content; 
   margin-right: 20px;
   border-radius: 6px;
 }
 
-.bookDetails {
+.itineraryDetails {
   flex-grow: 1;
 }
 
-.bookTitle {
+.itineraryDestination {
   font-size: 20px;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
-.bookAuthor {
+.itineraryDate {
   
   font-size: 16px;
   color: #666;

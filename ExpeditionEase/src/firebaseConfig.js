@@ -4,17 +4,19 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 const firebaseConfig = {
-  apiKey: "AIzaSyBOUZWfs5defLbF0vdNt91von5Vg5LAuGs",
-  authDomain: "fir-app-ef2b9.firebaseapp.com",
-  projectId: "fir-app-ef2b9",
-  storageBucket: "fir-app-ef2b9.appspot.com",
-  messagingSenderId: "781861443847",
-  appId: "1:781861443847:web:7e8524d598fc396eb7cda2",
-  measurementId: "G-637T9L3BRQ"
+  apiKey: "AIzaSyBxAl3hH6UB88Ribq5Di35ZilF8ZjKJclg",
+  authDomain: "expeditionease-d59c8.firebaseapp.com",
+  projectId: "expeditionease-d59c8",
+  storageBucket: "expeditionease-d59c8.appspot.com",
+  messagingSenderId: "107453419378",
+  appId: "1:107453419378:web:0a73838e2a9dd46bb357eb",
+  measurementId: "G-53N4W76PVW"
 };
 
 const app = initializeApp(firebaseConfig);
+console.log(app);
 const auth = getAuth(app);
+console.log(auth)
 const db = getFirestore(app);
 const storage = getStorage(app);
 
