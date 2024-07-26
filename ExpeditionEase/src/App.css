@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #ff0000;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +35,26 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.nav-button {
+  background-color: #007bff; /* Default button color */
+  color: #ffffff; /* Text color */
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px; /* Adjust as needed */
+}
+
+.nav-button:hover {
+  background-color: #0056b3; /* Color on hover */
+}
+
+.nav-button a {
+  color: inherit; /* Inherit button text color */
+  text-decoration: none; /* Remove underline from link */
 }

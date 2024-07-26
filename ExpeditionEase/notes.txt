@@ -1,6 +1,6 @@
 Destination -/
 Date -/
 Attractions -/
-Accommodation
+Accommodation -/
 Transportation
 est Cost

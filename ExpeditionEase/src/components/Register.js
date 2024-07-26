@@ -8,7 +8,7 @@ import styles from './styles/Register.module.css';
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('client'); // Default role is client
+  const [role, setRole] = useState('viewer'); // Default role is viewer
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -48,21 +48,21 @@ const Register = () => {
           <label>
             <input
               type="radio"
-              value="client"
-              checked={role === 'client'}
+              value="viewer"
+              checked={role === 'viewer'}
               onChange={(e) => setRole(e.target.value)}
             />
-            Client - Can view and search for itinerarys
+            Viewer - Can view and search for itinerarys
           </label>
           <br />
           <label>
             <input
               type="radio"
-              value="admin"
-              checked={role === 'admin'}
+              value="planner"
+              checked={role === 'planner'}
               onChange={(e) => setRole(e.target.value)}
             />
-            Admin - Can add, edit, and remove itinerarys
+            Planner - Can add, edit, and remove itinerarys
           </label>
         </div>
         <button type="submit" className={styles.button}>Register</button>

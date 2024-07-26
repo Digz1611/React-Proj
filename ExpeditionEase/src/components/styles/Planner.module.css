@@ -1,16 +1,16 @@
-/* src/styles/Admin.css */
-.admin-container {
+/* src/styles/Planner.css */
+.planner-container {
     max-width: 100%;
     margin: 0 auto;
     padding: 20px;
     align-self: center;
   }
   
-  .admin-section {
+  .planner-section {
     margin-top: 20px;
   }
   
-  .admin-section:first-child {
+  .planner-section:first-child {
     margin-top: 0;
   }
   

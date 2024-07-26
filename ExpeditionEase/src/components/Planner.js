@@ -1,9 +1,9 @@
-// src/components/Admin.js
+// src/components/Planner.js
 import React from 'react';
 import AddItinerary from './AddItinerary';
 import RemoveItinerary from './RemoveItinerary';
-import './styles/Admin.module.css';
-const Admin = () => {
+import './styles/Planner.module.css';
+const Planner = () => {
   return (
     <div>
       <AddItinerary />
@@ -12,4 +12,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default Planner;

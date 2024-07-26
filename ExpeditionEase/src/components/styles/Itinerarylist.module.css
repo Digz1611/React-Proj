@@ -57,17 +57,19 @@
   }
   
   .viewButton {
-    padding: 10px 20px;
-    background-color: #007bff;
+    width: 100%;
+    max-width: 200px;
+    padding: 12px 20px;
+    background-color: rgba(107, 32, 255, 1);
     color: #fff;
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.3s;
-    
+    margin-bottom: 10px;
   }
   
   .viewButton:hover {
-    background-color: #0056b3;
+    background-color: rgb(69, 2, 202);
   }
-  
